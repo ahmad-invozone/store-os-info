@@ -1,0 +1,39 @@
+{
+  "name": "save-os-info",
+  "version": "1.0.0",
+  "description": "",
+  "main": "systeminfo.js",
+  "scripts": {
+    "test": "eslint --config .eslintrc.json --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gist.github.com/4dfd4396ef04cc1e942472e2f2d4fb77.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gist.github.com/4dfd4396ef04cc1e942472e2f2d4fb77"
+  },
+  "homepage": "https://gist.github.com/4dfd4396ef04cc1e942472e2f2d4fb77",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "fs-extra": "^9.0.1",
+    "os": "^0.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.22.0",
+    "husky": "^4.3.6"
+  }
+}
