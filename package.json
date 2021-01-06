@@ -4,7 +4,7 @@
   "description": "",
   "main": "systeminfo.js",
   "scripts": {
-    "test": "eslint --config .eslintrc.json --fix"
+    "test": "eslint --config .eslintrc.json --fix && ./node_modules/.bin/eslint systeminfo.js"
   },
   "husky": {
     "hooks": {

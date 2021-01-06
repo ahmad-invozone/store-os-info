@@ -2,14 +2,11 @@ const config = require("dotenv").config().parsed;
 const os = require("os");
 const fs = require("fs-extra");
 
-// store cpu information
-async function storeCpuInfo() {
+// function read data from file
+function readData(path) {
   try {
-    let data = await os.cpus();
-    data = JSON.stringify(data, null, 2);
-    writeData(config.STORAGE_PATH + "cpu.txt", data).then(function () {
-      // read the data from file
-      readData(config.STORAGE_PATH + "cpu.txt");
+    fs.readFile(path, "utf8", (err) => {
+      if (err) throw err;
     });
   } catch (e) {
     console.log(e);
@@ -20,29 +17,40 @@ async function storeCpuInfo() {
 function writeData(path, data) {
   return new Promise(function (resolve, reject) {
     // make sure directories and file exists before writing
-    fs.ensureFile(path)
-      .then(() => {
-        fs.writeFile(path, data, function (err) {
-          if (err) {
-            reject(err);
-          } else {
-            console.log("Write Successfull!");
-            resolve();
-          }
-        });
-      })
-      .catch((err) => {
-        console.error(err);
+    fs.ensureFile(path, (err) => {
+      if (err) {
+        reject(err);
+      }
+      fs.writeFile(path, data, function (errW) {
+        if (errW) {
+          reject(errW);
+        } else {
+          console.log("Write Successfull!");
+          resolve();
+        }
       });
+    });
   });
 }
 
-// function read data from file
-function readData(path) {
-  fs.readFile(path, "utf8", (err, data) => {
-    if (err) throw err;
-    console.log(data);
-  });
+// store cpu information
+async function storeCpuInfo() {
+  try {
+    let data = await os.cpus();
+    const fileName = "cpu.txt";
+    const path = config.STORAGE_PATH + fileName;
+    data = JSON.stringify(data, null, 2);
+    writeData(path, data)
+      .then(function () {
+        // read the data from file
+        return readData(path);
+      })
+      .catch((err) => {
+        return console.error(err);
+      });
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 // call the info store function

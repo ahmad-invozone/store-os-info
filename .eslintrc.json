@@ -2,7 +2,7 @@
     "env": {
         "browser": true,
         "commonjs": true,
-        "es2021": true
+        "es6": true
     },
     "extends": [
         "airbnb-base",
@@ -12,13 +12,14 @@
       ],
     "plugins": ["prettier", "promise", "import"],
     "parserOptions": {
-        "ecmaVersion": 6
+        "ecmaVersion": 8
     },
     "rules": {
         "no-console": "off",
         "prettier/prettier": "error",
         "arrow-body-style": "off",
         "prefer-arrow-callback": "off",
+        "func-names": 0,
         "quotes": [
            "error",
            "double"
