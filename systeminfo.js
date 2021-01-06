@@ -1,6 +1,6 @@
 const config = require("dotenv").config().parsed;
 const os = require("os");
-const fs = require("fs");
+const fs = require("fs-extra");
 
 // store cpu information
 async function storeCpuInfo() {
@@ -19,14 +19,21 @@ async function storeCpuInfo() {
 // function for writing data in file
 function writeData(path, data) {
   return new Promise(function (resolve, reject) {
-    fs.writeFile(path, data, function (err) {
-      if (err) {
-        reject(err);
-      } else {
-        console.log("Write Successfull!");
-        resolve();
-      }
-    });
+    // make sure directories and file exists before writing
+    fs.ensureFile(path)
+      .then(() => {
+        fs.writeFile(path, data, function (err) {
+          if (err) {
+            reject(err);
+          } else {
+            console.log("Write Successfull!");
+            resolve();
+          }
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   });
 }
 
