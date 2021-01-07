@@ -1,53 +1,38 @@
-const config = require("dotenv").config().parsed;
-const os = require("os");
-const fs = require("fs-extra");
+const config = require('dotenv').config().parsed;
+const os = require('os');
+const fs = require('fs-extra');
 
 // function read data from file
-function readData(path) {
+async function readData(path) {
   try {
-    fs.readFile(path, "utf8", (err) => {
-      if (err) throw err;
-    });
-  } catch (e) {
-    console.log(e);
+    const data = await fs.readFile(path, 'utf8');
+    console.log(data);
+  } catch (error) {
+    console.log(error);
   }
 }
 
 // function for writing data in file
-function writeData(path, data) {
-  return new Promise(function (resolve, reject) {
+async function writeData(path, data) {
+  try {
     // make sure directories and file exists before writing
-    fs.ensureFile(path, (err) => {
-      if (err) {
-        reject(err);
-      }
-      fs.writeFile(path, data, function (errW) {
-        if (errW) {
-          reject(errW);
-        } else {
-          console.log("Write Successfull!");
-          resolve();
-        }
-      });
-    });
-  });
+    await fs.ensureFile(path);
+    await fs.writeFile(path, data);
+    console.log('Write Successfull!');
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // store cpu information
 async function storeCpuInfo() {
   try {
-    let data = await os.cpus();
-    const fileName = "cpu.txt";
-    const path = config.STORAGE_PATH + fileName;
+    let data = os.cpus();
+    const fileName = 'cpu.txt';
+    const path = os.homedir + config.STORAGE_PATH + fileName;
     data = JSON.stringify(data, null, 2);
-    writeData(path, data)
-      .then(function () {
-        // read the data from file
-        return readData(path);
-      })
-      .catch((err) => {
-        return console.error(err);
-      });
+    await writeData(path, data);
+    readData(path);
   } catch (e) {
     console.log(e);
   }

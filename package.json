@@ -4,12 +4,15 @@
   "description": "",
   "main": "systeminfo.js",
   "scripts": {
-    "test": "eslint --config .eslintrc.json --fix && ./node_modules/.bin/eslint systeminfo.js"
+    "lint:fix": "eslint --config .eslintrc.json --fix"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm test"
+      "pre-commit": "npm run lint:fix"
     }
+  },
+  "lint-staged": {
+    "*.js": ["./node_modules/.bin/eslint — fix", "git add"]
   },
   "repository": {
     "type": "git",
